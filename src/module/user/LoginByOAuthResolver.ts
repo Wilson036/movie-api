@@ -15,12 +15,18 @@ export class LoginWithOauthResolver {
   ): Promise<string | null> {
     const manager = getManager();
     let user = await manager.findOne(Users, { email: email });
+    console.log('user', user);
     if (!user) {
       user = new Users();
       user.username = email.split('@')[0];
       user.password = await bcrypt.hash(`${id}`, 12);
       user.email = email;
       user.createdAt = new Date(Date.now());
+      try {
+        await manager.save(user);
+      } catch (err) {
+        console.error(err);
+      }
     }
     const userId = user.id;
     //@ts-ignore
