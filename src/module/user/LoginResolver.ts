@@ -4,15 +4,16 @@ import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
 import bcrypt from 'bcryptjs';
 import { getManager } from 'typeorm';
 import { Context } from '../../types/Context';
+import jwt from 'jsonwebtoken';
 
 @Resolver()
 export class LoginResolver {
-  @Mutation(() => Users)
+  @Mutation(() => String)
   async login(
     @Arg('email') email: string,
     @Arg('password') password: string,
     @Ctx() ctx: Context
-  ): Promise<Users | undefined> {
+  ): Promise<string> {
     const manager = getManager();
     const users = await manager.findOne(Users, { email: email });
     if (!users) {
@@ -24,9 +25,10 @@ export class LoginResolver {
       throw new Error('password not correct');
     }
     const id = users.id;
-    console.log(id);
+
     //@ts-ignores
-    ctx.req.session.userId = users.id;
-    return users;
+    ctx.req.session.userId = id;
+
+    return jwt.sign({ id: id }, `${process.env.JWT_SECRET}`);
   }
 }

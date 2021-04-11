@@ -6,6 +6,7 @@
   "author": "Wilson Kao",
   "license": "ISC",
   "dependencies": {
+    "@types/jsonwebtoken": "^8.5.1",
     "apollo-server-express": "^2.22.1",
     "bcryptjs": "^2.4.3",
     "class-validator": "^0.13.1",
@@ -15,6 +16,7 @@
     "express-session": "^1.17.1",
     "graphql": "^15.5.0",
     "ioredis": "^4.24.5",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.6",
     "mysql": "^2.18.1",
     "nodemailer": "^6.5.0",

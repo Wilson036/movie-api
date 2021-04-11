@@ -1,8 +1,10 @@
 import { Users } from '../../entity/users';
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { getManager } from 'typeorm';
 import bcrypt from 'bcryptjs';
 import { RegisterInput } from './register/registerInput';
+import jwt from 'jsonwebtoken';
+import { Context } from 'src/types/Context';
 
 @Resolver()
 export class UserResolver {
@@ -12,20 +14,24 @@ export class UserResolver {
     return await manager.find(Users);
   }
 
-  @Mutation(() => Users)
+  @Mutation(() => String)
   async registerUser(
-    @Arg('data') { username, password, email }: RegisterInput
-  ): Promise<Users | null> {
+    @Arg('data') { username, password, email }: RegisterInput,
+    @Ctx() { req }: Context
+  ): Promise<string | null> {
     const user = new Users();
     const manager = getManager();
     user.username = username;
     user.password = await bcrypt.hash(password, 12);
     user.email = email;
     user.createdAt = new Date(Date.now());
-    console.log('new Date()', new Date(Date.now()));
+
     try {
       await manager.save(user);
-      return user;
+      const id = user.id;
+      //@ts-ignore
+      req.session.userId = id;
+      return jwt.sign({ id: id }, `${process.env.JWT_SECRET}`);
     } catch (err) {
       console.error(err);
       return null;

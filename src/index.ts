@@ -25,7 +25,6 @@ const main = async () => {
   app.use(
     cors({
       credentials: true,
-      origin: 'https://localhost:3000',
     })
   );
 
@@ -47,7 +46,7 @@ const main = async () => {
     })
   );
 
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({ app, cors: false, path: '/movie-api' });
 
   app.listen(4000, () => {
     console.log('server start!!!!');
