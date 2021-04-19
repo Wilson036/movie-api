@@ -1,10 +1,12 @@
 {
     "type": "mongodb",
-    "host": "localhost",
-    "port": 27017,
-    "database": "notedly",
+    "url": "mongodb+srv://wilson:1234567aF@cluster0.ax1yv.mongodb.net/movie?retryWrites=true",
+    "database": "movie",
+    "useNewUrlParser": true,
     "synchronous": true,
+    "useUnifiedTopology": true,
     "logging": true,
+    "ssl": true,
     "entities": [
         "src/entity/*.*"
     ]
