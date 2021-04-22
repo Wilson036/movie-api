@@ -11,4 +11,10 @@ export class TheaterResolver {
     const manager = getManager();
     return await manager.find(Theater, { area_id: area_id });
   }
+
+  @Query(() => [Theater])
+  async getAllTheaters(): Promise<Theater[] | null> {
+    const manager = getManager();
+    return await manager.find(Theater);
+  }
 }
