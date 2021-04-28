@@ -3,14 +3,18 @@ import { toObjectId } from '../../utils/toObjectID';
 import { Ctx, Query, Resolver } from 'type-graphql';
 import { getMongoRepository } from 'typeorm';
 import { Users } from '../../entity/users';
+import jwt from 'jsonwebtoken';
 
 @Resolver()
 export class MeResolver {
   @Query(() => Users, { nullable: true })
   async me(@Ctx() ctx: Context): Promise<Users | undefined> {
+    const token = `${ctx.req.headers.authorization}`;
     //@ts-ignore
-    const _id = toObjectId(ctx.req.session!.userId);
-    const users = getMongoRepository(Users).findOne({ where: { _id } });
+    const { id } = jwt.verify(token, `${process.env.JWT_SECRET}`);
+    //@ts-ignore
+    const _id = toObjectId(id);
+    const users = await getMongoRepository(Users).findOne({ where: { _id } });
     return users;
   }
 }

@@ -15,7 +15,6 @@ export class LoginWithOauthResolver {
   ): Promise<string | null> {
     const manager = getManager();
     let user = await manager.findOne(Users, { email: email });
-    console.log('user', user);
     if (!user) {
       user = new Users();
       user.username = email.split('@')[0];
