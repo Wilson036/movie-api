@@ -2,7 +2,7 @@
   "name": "movie-api",
   "version": "1.0.0",
   "description": "query and edit movie information",
-  "main": "index.js",
+  "main": "index.ts",
   "author": "Wilson Kao",
   "license": "ISC",
   "dependencies": {
@@ -44,7 +44,7 @@
     "typescript": "^4.2.3"
   },
   "scripts": {
-    "start": "nodemon src/index.ts",
-    "dev": "nodemon src/index.ts"
+    "start": "ts-node src/index.ts",
+    "dev": "ts-nodeç src/index.ts"
   }
 }
