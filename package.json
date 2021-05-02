@@ -45,6 +45,7 @@
   },
   "scripts": {
     "start": "nodemon src/index.ts",
+    "start:dev": "nodemon src/index.ts",
     "dev": "nodemon src/index.ts"
   }
 }
