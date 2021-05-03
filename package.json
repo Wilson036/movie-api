@@ -56,7 +56,6 @@
   "scripts": {
     "start": "ts-node-dev src/index.ts",
     "start:dev": "node dist/index.js",
-    "postinstall": "npm run build",
     "build": "tsc"
   }
 }
