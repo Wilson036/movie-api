@@ -49,9 +49,11 @@ const main = async () => {
 
   apolloServer.applyMiddleware({ app, cors: false, path: '/movie-api' });
 
-  app.listen(4000, () => {
-    console.log('server start!!!!');
+  app.listen(process.env.PORT, () => {
+    console.log(`server start!!!! port is ${process.env.PORT}`);
   });
 };
 
-main();
+main().catch((err) => {
+  console.error(err);
+});
