@@ -33,6 +33,7 @@ const main = async () => {
     session({
       store: new RedisStore({
         client: redis as any,
+        ttl: 86400,
       }),
       name: 'diq',
       secret: 'wilson036',
