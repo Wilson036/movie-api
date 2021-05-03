@@ -1,4 +1,4 @@
-import Redis from 'ioredis';
+import Redis from 'redis';
 //const redisClient = process.env.REDIS_URI;
 const redisConfig = {
   host: 'ec2-34-227-34-10.compute-1.amazonaws.com', // Redis host
@@ -8,4 +8,4 @@ const redisConfig = {
   connectTimeout: 10000,
 };
 
-export const redis = new Redis(redisConfig);
+export const redis = Redis.createClient(redisConfig);
