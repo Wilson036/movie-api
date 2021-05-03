@@ -34,12 +34,15 @@ export class PasswordResolver {
     @Arg('data') { token, password }: ChangePasswordInput
   ): Promise<Boolean> {
     const manager = getManager();
-    const id = await redis.get(forgotPasswordPrefix + token);
-    if (!id) {
+    let _id;
+    await redis.get(forgotPasswordPrefix + token, (_err, id) => {
+      if (id) {
+        _id = toObjectId(id);
+      }
+    });
+    if (!_id) {
       return false;
     }
-
-    const _id = toObjectId(id);
 
     const user = await manager.findOne(Users, { where: { _id } });
 
@@ -50,6 +53,7 @@ export class PasswordResolver {
     await redis.del(forgotPasswordPrefix + token);
     user.password = await bcrypt.hash(password, 12);
     manager.save(user);
+
     // //@ts-ignore
     // ctx.req.session!.userId = user.id;
     return true;
