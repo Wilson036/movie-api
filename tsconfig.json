@@ -26,7 +26,11 @@
       "declaration": true,
       "outDir": "./lib",
       "noImplicitAny": true,
-      "importHelpers": true
+      "importHelpers": true,
+      "typeRoots": [
+        "../../typings",
+        "../../node_modules/@types"
+      ]
     },
     "exclude": ["node_modules"],
     "include": ["./src/**/*.tsx", "./src/**/*.ts"],
