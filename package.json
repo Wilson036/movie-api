@@ -2,7 +2,7 @@
   "name": "movie-api",
   "version": "1.0.0",
   "description": "query and edit movie information",
-  "main": "index.ts",
+  "main": "index.js",
   "author": "Wilson Kao",
   "license": "ISC",
   "engines": {
