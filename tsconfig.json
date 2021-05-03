@@ -25,7 +25,7 @@
       "jsx": "react",
       "declaration": true,
       "outDir": "./lib",
-      "noImplicitAny": true,
+      "noImplicitAny": false,
       "importHelpers": true,
       "typeRoots": [
         "../../typings",
