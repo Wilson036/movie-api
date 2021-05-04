@@ -37,4 +37,26 @@ export class UserResolver {
       return null;
     }
   }
+
+  @Mutation(() => Boolean)
+  async addFoviesMovie(
+    @Arg('favorite_movies', () => [String]) favorite_movies: string[],
+    @Ctx() ctx: Context
+  ): Promise<boolean> {
+    const token = `${ctx.req.headers.authorization}`;
+    const manager = getManager();
+    //@ts-ignore
+    const { id } = jwt.verify(token, `${process.env.JWT_SECRET}`);
+    //@ts-ignore
+    const _id = toObjectId(id);
+
+    const user = await manager.findOne(Users, { where: { _id } });
+    if (!user) {
+      return false;
+    }
+    user.favorite_movies = favorite_movies;
+    await manager.save(user);
+
+    return true;
+  }
 }

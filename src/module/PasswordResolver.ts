@@ -19,7 +19,6 @@ export class PasswordResolver {
       return true;
     }
     const token = v4();
-    console.log({ token });
     await redis.set(
       forgotPasswordPrefix + token,
       `${user.id}`,
@@ -27,8 +26,6 @@ export class PasswordResolver {
       60 * 60 * 24
     );
     sendEMail(email, `http://localhost:3000/change-password/${token}`);
-    const userId = await redis.get(forgotPasswordPrefix + token);
-    console.log({ userId });
     return true;
   }
 

@@ -19,6 +19,10 @@ export class Users {
   @Field()
   password: string;
 
+  @Field(() => [String])
+  @Column()
+  favorite_movies: Array<string> = [];
+
   @Field()
   @Column()
   createdAt: Date;
