@@ -1,5 +1,6 @@
 import { Users } from '../../entity/users';
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
+import { toObjectId } from '../../utils/toObjectID';
 import { getManager } from 'typeorm';
 import bcrypt from 'bcryptjs';
 import { RegisterInput } from './register/registerInput';
@@ -40,7 +41,8 @@ export class UserResolver {
 
   @Mutation(() => Boolean)
   async addFoviesMovie(
-    @Arg('favorite_movies', () => [String]) favorite_movies: string[],
+    @Arg('favorite_movies', () => [String], { nullable: true })
+    favorite_movies: string[],
     @Ctx() ctx: Context
   ): Promise<boolean> {
     const token = `${ctx.req.headers.authorization}`;
