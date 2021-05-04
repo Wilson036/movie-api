@@ -19,6 +19,7 @@ export class PasswordResolver {
       return true;
     }
     const token = v4();
+    console.log({ token });
     await redis.set(
       forgotPasswordPrefix + token,
       `${user.id}`,
@@ -26,6 +27,8 @@ export class PasswordResolver {
       60 * 60 * 24
     );
     sendEMail(email, `http://localhost:3000/change-password/${token}`);
+    const userId = await redis.get(forgotPasswordPrefix + token);
+    console.log({ userId });
     return true;
   }
 
@@ -34,16 +37,11 @@ export class PasswordResolver {
     @Arg('data') { token, password }: ChangePasswordInput
   ): Promise<Boolean> {
     const manager = getManager();
-    let _id;
-    await redis.get(forgotPasswordPrefix + token, (_err, id) => {
-      if (id) {
-        _id = toObjectId(id);
-      }
-    });
-    if (!_id) {
+    const userId = await redis.get(forgotPasswordPrefix + token);
+    if (!userId) {
       return false;
     }
-
+    const _id = toObjectId(userId);
     const user = await manager.findOne(Users, { where: { _id } });
 
     if (!user) {
@@ -53,9 +51,6 @@ export class PasswordResolver {
     await redis.del(forgotPasswordPrefix + token);
     user.password = await bcrypt.hash(password, 12);
     manager.save(user);
-
-    // //@ts-ignore
-    // ctx.req.session!.userId = user.id;
     return true;
   }
 }
