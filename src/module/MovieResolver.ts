@@ -35,4 +35,24 @@ export class MoviesResolver {
 
     return movies;
   }
+  @Query(() => [Movies], { nullable: true })
+  async queryMoviesByIds(
+    @Arg('ids', () => [String], { nullable: true }) ids: string[]
+  ): Promise<Movies[] | null> {
+    const manager = getRepository(Movies);
+
+    try {
+      const movies = await manager.find({
+        where: {
+          movie_id: { $in: ids },
+        },
+      });
+      if (!movies) {
+        throw new Error('movie not found');
+      }
+      return movies;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
 }
