@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs';
 import { RegisterInput } from './register/registerInput';
 import jwt from 'jsonwebtoken';
 import { Context } from 'src/types/Context';
+import { gravatar } from '../../utils/gravatar';
 
 @Resolver()
 export class UserResolver {
@@ -25,6 +26,7 @@ export class UserResolver {
     user.username = username;
     user.password = await bcrypt.hash(password, 12);
     user.email = email;
+    user.avatar = gravatar(email);
     user.createdAt = new Date(Date.now());
 
     try {

@@ -15,6 +15,10 @@ export class Users {
   @Column()
   email: string;
 
+  @Field()
+  @Column()
+  avatar: string;
+
   @Column()
   @Field()
   password: string;

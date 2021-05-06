@@ -1,13 +1,13 @@
 import { Context } from 'src/types/Context';
 import { toObjectId } from '../../utils/toObjectID';
-import { Ctx, Query, Resolver } from 'type-graphql';
+import { Ctx, Resolver, Mutation } from 'type-graphql';
 import { getMongoRepository } from 'typeorm';
 import { Users } from '../../entity/users';
 import jwt from 'jsonwebtoken';
 
 @Resolver()
 export class MeResolver {
-  @Query(() => Users, { nullable: true })
+  @Mutation(() => Users, { nullable: true })
   async me(@Ctx() ctx: Context): Promise<Users | undefined> {
     const token = `${ctx.req.headers.authorization}`;
     //@ts-ignore
@@ -15,6 +15,7 @@ export class MeResolver {
     //@ts-ignore
     const _id = toObjectId(id);
     const users = await getMongoRepository(Users).findOne({ where: { _id } });
+
     return users;
   }
 }

@@ -1,0 +1,6 @@
+import md5 from 'md5';
+
+export const gravatar = (email) => {
+  const hash = md5(email);
+  return `https://www.gravatar.com/avatar/${hash}.jpg?d=identicon`;
+};
