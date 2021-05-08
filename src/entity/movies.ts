@@ -22,9 +22,21 @@ export class Movies {
 
   @Column()
   @Field(() => String, { nullable: true })
+  satifaction: string;
+
+  @Column()
+  @Field(() => String, { nullable: true })
   img_src: string;
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => String, { nullable: true })
   @Column()
-  release_date: Date;
+  release_time: String;
+
+  @Field(() => String, { nullable: true })
+  @Column()
+  release_text: string;
+
+  @Column()
+  @Field(() => String, { nullable: true })
+  info_src: string;
 }

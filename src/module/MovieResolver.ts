@@ -26,7 +26,7 @@ export class MoviesResolver {
     const manager = getRepository(Movies);
     const movies = await manager.find({
       where: {
-        release_date: { $gt: new Date(date) },
+        release_time: { $lt: date },
       },
     });
     if (!movies) {
