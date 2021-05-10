@@ -19,14 +19,18 @@ export class PasswordResolver {
       return true;
     }
     const token = v4();
-    await redis.set(
-      forgotPasswordPrefix + token,
-      `${user.id}`,
-      'ex',
-      60 * 60 * 24
-    );
-    sendEMail(email, `http://localhost:3000/change-password/${token}`);
-    return true;
+    await redis.set(forgotPasswordPrefix + token, `${user.id}`, 'ex', 60 * 30);
+
+    try {
+      await sendEMail(
+        email,
+        `https://wilson036.github.io/movie-app/change-password/${token}`
+      );
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
   }
 
   @Mutation(() => Boolean, { nullable: true })
